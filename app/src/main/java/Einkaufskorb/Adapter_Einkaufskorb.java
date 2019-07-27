@@ -1,22 +1,21 @@
-package de.rg.einkaufsliste;
+package Einkaufskorb;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import Zutaten.*;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewholder> {
+import de.rg.einkaufsliste.R;
+import Zutaten.Zutat;
 
-    private ArrayList<Zutat> Zutatenliste;
+public class Adapter_Einkaufskorb extends RecyclerView.Adapter<Adapter_Einkaufskorb.MyViewholder> {
+
+    private ArrayList<Zutat> Einkaufsliste;
     private OnItemClickListener myListener;
 
     public interface OnItemClickListener{
@@ -31,13 +30,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class MyViewholder extends RecyclerView.ViewHolder {
 
         public TextView textView;
-        public ImageView delete;
+
 
 
         public MyViewholder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             textView= itemView.findViewById(R.id.textViewCard);
-            delete = itemView.findViewById(R.id.imageViewdelete);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -50,29 +49,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 }
             });
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });
+
         }
     }
 
-    public RecyclerViewAdapter( ArrayList<Zutat> mZutatenliste){
-        Zutatenliste = mZutatenliste;
+    public Adapter_Einkaufskorb(ArrayList<Zutat> mEinkaufsliste){
+        Einkaufsliste = mEinkaufsliste;
     }
 
 
     @NonNull
     @Override
     public MyViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_einkaufskorb,parent,false);
         MyViewholder myvh = new MyViewholder(v, myListener);
         return myvh;
     }
@@ -81,12 +70,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewholder holder, int position) {
 
-        Zutat zutat = Zutatenliste.get(position);
+        Zutat zutat = Einkaufsliste.get(position);
         holder.textView.setText(zutat.getName());
     }
 
     @Override
     public int getItemCount() {
-        return Zutatenliste.size();
+        return Einkaufsliste.size();
     }
 }

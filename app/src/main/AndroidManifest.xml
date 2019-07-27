@@ -16,24 +16,24 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Einkaufskorb_Activity"
-            android:label="@string/title_activity_einkaufskorb_"
+            android:label="Einkaufskorb"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".GerichteEingabeActivitySave"
-            android:label="@string/title_activity_gerichte_eingabe"
+            android:name="Gericht_bearbeiten.GerichtBearbeitenActivity"
+            android:label="Gericht bearbeiten"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GerichteEingabeActivity"
-            android:label="@string/title_activity_gerichte_eingabe"
+            android:name="GerichteEingabe.GerichteEingabeActivity"
+            android:label="Gericht hinzufügen"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ZutatenEingabeActivity"
-            android:label="@string/title_activity_zutaten_eingabe"
+            android:name="ZutatenEingabe.ZutatenEingabeActivity"
+            android:label="Zutaten hinzufügen"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ZutatenActivity"
-            android:label="@string/title_activity_zutaten"
+            android:name="Zutaten.ZutatenActivity"
+            android:label="Zutaten"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"

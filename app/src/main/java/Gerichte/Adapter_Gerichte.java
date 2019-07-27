@@ -1,7 +1,6 @@
-package de.rg.einkaufsliste;
+package Gerichte;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -10,24 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
-import BilderGerichte.Gericht;
-import Zutaten.*;
-
 import java.util.ArrayList;
 import android.util.Base64;
 
-import static androidx.core.content.ContextCompat.startActivity;
+import de.rg.einkaufsliste.R;
+import Zutaten.ZutatenActivity;
 
 public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyViewholder>{
 
-    private ArrayList<Gericht> GerichteListe;
+    private ArrayList<ZutatenActivity.Gericht> GerichteListe;
     private Adapter_Gerichte.OnItemClickListener myListener;
     private Context context;
     private LayoutInflater inflater;
@@ -46,7 +40,6 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
 
         public TextView name;
         public ImageView Bild;
-        public Button btn_Zutaten;
         public ImageView delete;
         public ImageView imageEinkaufskorbHaken;
 
@@ -55,22 +48,9 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
             super(itemView);
             name= itemView.findViewById(R.id.textViewNameGericht);
             Bild= itemView.findViewById(R.id.imageViewGericht);
-            btn_Zutaten = itemView.findViewById(R.id.buttonGerichtZutaten);
             delete = itemView.findViewById(R.id.imageViewGerichtLöschen);
             imageEinkaufskorbHaken = itemView.findViewById(R.id.imageViewEinkaufskorb);
 
-            btn_Zutaten.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onZutatenClick(position);
-
-                        }
-                    }
-                }
-            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,7 +76,7 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
         }
     }
 
-    public Adapter_Gerichte(Context context,ArrayList<Gericht> mGerichte){
+    public Adapter_Gerichte(Context context,ArrayList<ZutatenActivity.Gericht> mGerichte){
         GerichteListe = mGerichte;
         inflater = LayoutInflater.from(context);
         this.context=context;
@@ -106,7 +86,7 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
     @NonNull
     @Override
     public MyViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_gerichte,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_gericht,parent,false);
         MyViewholder myvh = new MyViewholder(v, myListener);
         return myvh;
     }
@@ -115,7 +95,7 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
     @Override
     public void onBindViewHolder(MyViewholder holder, int position) {
 
-        Gericht gericht = GerichteListe.get(position);
+        ZutatenActivity.Gericht gericht = GerichteListe.get(position);
         holder.name.setText(gericht.getName());
         if (gericht.getFoto() !=1){
             holder.Bild.setImageResource(gericht.getFoto());

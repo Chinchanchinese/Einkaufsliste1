@@ -1,8 +1,9 @@
-package de.rg.einkaufsliste;
+package Zutaten;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import Zutaten.Zutat;
+import de.rg.einkaufsliste.R;
 
-public class Adapter_Einkaufskorb extends RecyclerView.Adapter<Adapter_Einkaufskorb.MyViewholder> {
+public class Adapter_Zutatenliste extends RecyclerView.Adapter<Adapter_Zutatenliste.MyViewholder> {
 
-    private ArrayList<Zutat> Einkaufsliste;
+    private BaseAdapter baseAdapter;
+    private ArrayList<Zutat> Zutatenliste;
     private OnItemClickListener myListener;
 
     public interface OnItemClickListener{
@@ -30,13 +32,12 @@ public class Adapter_Einkaufskorb extends RecyclerView.Adapter<Adapter_Einkaufsk
     public static class MyViewholder extends RecyclerView.ViewHolder {
 
         public TextView textView;
-
+        public ImageView delete;
 
 
         public MyViewholder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             textView= itemView.findViewById(R.id.textViewCard);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -49,19 +50,18 @@ public class Adapter_Einkaufskorb extends RecyclerView.Adapter<Adapter_Einkaufsk
                     }
                 }
             });
-
         }
     }
 
-    public Adapter_Einkaufskorb(ArrayList<Zutat> mEinkaufsliste){
-        Einkaufsliste = mEinkaufsliste;
+    public Adapter_Zutatenliste(ArrayList<Zutat> mZutatenliste){
+        Zutatenliste = mZutatenliste;
     }
 
 
     @NonNull
     @Override
     public MyViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_einkaufskorb,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_zutat,parent,false);
         MyViewholder myvh = new MyViewholder(v, myListener);
         return myvh;
     }
@@ -70,12 +70,12 @@ public class Adapter_Einkaufskorb extends RecyclerView.Adapter<Adapter_Einkaufsk
     @Override
     public void onBindViewHolder(MyViewholder holder, int position) {
 
-        Zutat zutat = Einkaufsliste.get(position);
+        Zutat zutat = Zutatenliste.get(position);
         holder.textView.setText(zutat.getName());
     }
 
     @Override
     public int getItemCount() {
-        return Einkaufsliste.size();
+        return Zutatenliste.size();
     }
 }

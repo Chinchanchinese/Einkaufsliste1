@@ -1,4 +1,4 @@
-package de.rg.einkaufsliste;
+package ZutatenEingabe;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import de.rg.einkaufsliste.R;
 
 public class ZutatenEingabeActivity extends AppCompatActivity {
 

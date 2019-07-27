@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,14 +12,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.widget.Toast;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import BilderGerichte.Gericht;
+import Einkaufskorb.Adapter_Einkaufskorb;
 import Zutaten.Zutat;
+import Zutaten.ZutatenActivity;
 
 public class Einkaufskorb_Activity extends AppCompatActivity {
 
@@ -32,7 +28,7 @@ public class Einkaufskorb_Activity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutmanager;
     private int INPUT_ACTIVITY_RESULT;
     private String Daten;
-    private ArrayList<Gericht> Gerichte;
+    private ArrayList<ZutatenActivity.Gericht> Gerichte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +38,13 @@ public class Einkaufskorb_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ZutatenGesamt = new ArrayList<>();
         Bundle extra = getIntent().getBundleExtra("extra");
-        Gerichte= (ArrayList<Gericht>) extra.getSerializable("object");
+        Gerichte= (ArrayList<ZutatenActivity.Gericht>) extra.getSerializable("object");
         createEinkaufsliste(Gerichte);
         buildRecyclerView();
 
     }
 
-    private void createEinkaufsliste(ArrayList<Gericht> mGerichte) {
+    private void createEinkaufsliste(ArrayList<ZutatenActivity.Gericht> mGerichte) {
         for (int i=0; i < mGerichte.size();i++){
             if(mGerichte.get(i).getHaken()==true) {
                 String Datensatz=mGerichte.get(i).getDatensatz();

@@ -1,4 +1,4 @@
-package de.rg.einkaufsliste;
+package GerichteEingabe;
 
 import android.Manifest;
 import android.content.Intent;
@@ -32,6 +32,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.rg.einkaufsliste.R;
+
 public class GerichteEingabeActivity extends AppCompatActivity {
 
 
@@ -52,7 +54,7 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gerichte_eingabe);
 
         NameGericht = findViewById(R.id.editTextNameGericht);
-        btn1 = (Button) findViewById(R.id.buttonFotoaufnehmen);
+        //btn1 = (Button) findViewById(R.id.buttonFotoaufnehmen);
         iv1 = (ImageView) findViewById(R.id.imageViewFotoaufnehmen);
         Hinzufügen = findViewById(R.id.buttonGerichtHinzufügen);
 
@@ -63,7 +65,22 @@ public class GerichteEingabeActivity extends AppCompatActivity {
             }
         });
 
-        btn1.setOnClickListener(new OnClickListener() {
+        /*btn1.setOnClickListener(new OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    invokeCamera();
+                }
+                else {
+                    // let's request permission.
+                    String[] permissionRequest = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
+                }
+            }
+        });*/
+        iv1.setOnClickListener(new OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -86,7 +103,7 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         //Wo soll camera speichern
-       //intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
         // tell the camera to request WRITE permission.
         intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         startActivityForResult(intent, 15);
@@ -131,37 +148,37 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == Kameracode) {
 
-             if (data != null) {
-                  bitmap= (Bitmap)data.getExtras().get("data");
+                if (data != null) {
+                    bitmap= (Bitmap)data.getExtras().get("data");
 
-                  iv1.setImageBitmap(bitmap);
+                    iv1.setImageBitmap(bitmap);
 
-                  BitmapDrawable drawable= (BitmapDrawable) iv1.getDrawable();
-                  Bitmap bitmap2 = drawable.getBitmap();
+                    BitmapDrawable drawable= (BitmapDrawable) iv1.getDrawable();
+                    Bitmap bitmap2 = drawable.getBitmap();
 
-                  File filepath= Environment.getExternalStorageDirectory();
-                  File dir = new File(filepath.getAbsolutePath()+"/Bilder Gerichte/");
-                  dir.mkdir();
-                  File file = new File(dir, System.currentTimeMillis()+".jpg");
-                  try{
-                      outputstream = new FileOutputStream(file);
-                  } catch (FileNotFoundException e) {
+                    File filepath= Environment.getExternalStorageDirectory();
+                    File dir = new File(filepath.getAbsolutePath()+"/Bilder Gerichte/");
+                    dir.mkdir();
+                    File file = new File(dir, System.currentTimeMillis()+".jpg");
+                    try{
+                        outputstream = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                  }
-                  bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, outputstream);
-                  Toast.makeText(getApplicationContext(), "Bild gespeichert " , Toast.LENGTH_SHORT).show();
-                  try {
-                      outputstream.flush();
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
-                  try {
-                      outputstream.close();
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
+                    }
+                    bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, outputstream);
+                    Toast.makeText(getApplicationContext(), "Bild gespeichert " , Toast.LENGTH_SHORT).show();
+                    try {
+                        outputstream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        outputstream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
 
 
         }

@@ -25,28 +25,28 @@
         android:layout_height="match_parent"
         app:layout_anchor="@+id/fab"
         app:layout_anchorGravity="bottom|center"
+        android:fontFamily="@font/indieflow"
+        android:textStyle="bold"
         android:layout_width="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|left"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="#A3BE80"
         app:fabSize="auto"
-        app:rippleColor="@color/colorAccent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="#D56F4D"
         app:fabSize="auto"
-        app:rippleColor="@color/colorAccent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@android:drawable/ic_input_get" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -27,6 +27,7 @@ import Gericht_bearbeiten.GerichtBearbeitenActivity;
 import Gerichte.Gericht;
 import de.rg.einkaufsliste.R;
 import ZutatenEingabe.ZutatenEingabeActivity;
+import de.rg.einkaufsliste.ReplaceFont;
 
 
 public class ZutatenActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class ZutatenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zutaten);
+        ReplaceFont.replaceDefaultFont(this,"DEFAULT","indieflow.ttf");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

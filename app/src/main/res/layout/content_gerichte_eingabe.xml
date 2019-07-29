@@ -24,10 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="147dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginBottom="153dp"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:fontFamily="@font/indieflow"
+        android:inputType="textPersonName"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonGerichtHinzufügen"
@@ -35,17 +37,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="68dp"
-        android:layout_marginBottom="148dp"
+        android:layout_marginEnd="174dp"
+        android:layout_marginBottom="91dp"
         android:background="@android:drawable/ic_menu_save" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="154dp"
-        android:layout_height="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="152dp"
-        android:layout_marginBottom="194dp"
-        android:text="Name des Gerichts" />
+        android:layout_marginEnd="94dp"
+        android:layout_marginBottom="195dp"
+        android:fontFamily="@font/indieflow"
+        android:text="Name des Gerichts"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 </RelativeLayout>

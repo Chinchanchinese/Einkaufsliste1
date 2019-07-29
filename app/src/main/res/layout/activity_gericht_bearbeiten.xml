@@ -8,44 +8,46 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="118dp"
+        android:layout_width="149dp"
         android:layout_height="35dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="268dp"
+        android:layout_marginEnd="237dp"
         android:layout_marginBottom="236dp"
-        android:text="Neue Zutat" />
+        android:text="Neue Zutat"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="118dp"
-        android:layout_height="35dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="268dp"
-        android:layout_marginBottom="149dp"
-        android:text="Name ändern" />
-
-    <EditText
-        android:id="@+id/editTextZutat2"
-        android:layout_width="wrap_content"
+        android:layout_width="146dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="189dp"
+        android:layout_marginEnd="240dp"
+        android:layout_marginBottom="149dp"
+        android:text="Name ändern"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/editTextZutat2"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="208dp"
+        android:layout_marginBottom="185dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:visibility="visible" />
 
     <EditText
         android:id="@+id/editTextNameändern"
-        android:layout_width="wrap_content"
+        android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="99dp"
+        android:layout_marginEnd="208dp"
+        android:layout_marginBottom="97dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:visibility="visible" />
@@ -56,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="187dp"
         android:text="Hinzufügen" />
 
     <Button
@@ -66,8 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="83dp"
-        android:layout_marginBottom="97dp"
+        android:layout_marginEnd="114dp"
+        android:layout_marginBottom="96dp"
         android:text="Ändern" />
 
     <com.google.android.material.appbar.AppBarLayout
@@ -94,12 +96,12 @@
 
     <Button
         android:id="@+id/buttonGerichtlöschen"
-        android:layout_width="53dp"
-        android:layout_height="38dp"
+        android:layout_width="28dp"
+        android:layout_height="27dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="118dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginBottom="47dp"
         android:foreground="@android:drawable/ic_delete" />
 
     <TextView
@@ -108,8 +110,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="178dp"
-        android:layout_marginBottom="51dp"
+        android:layout_marginEnd="252dp"
+        android:layout_marginBottom="48dp"
         android:text="Gericht löschen" />
 
 </RelativeLayout>

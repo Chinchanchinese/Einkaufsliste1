@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import Einkaufskorb.Adapter_Einkaufskorb;
+import Gerichte.Gericht;
 import Zutaten.Zutat;
 import Zutaten.ZutatenActivity;
 
@@ -28,7 +29,7 @@ public class Einkaufskorb_Activity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutmanager;
     private int INPUT_ACTIVITY_RESULT;
     private String Daten;
-    private ArrayList<ZutatenActivity.Gericht> Gerichte;
+    private ArrayList<Gericht> Gerichte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +39,13 @@ public class Einkaufskorb_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ZutatenGesamt = new ArrayList<>();
         Bundle extra = getIntent().getBundleExtra("extra");
-        Gerichte= (ArrayList<ZutatenActivity.Gericht>) extra.getSerializable("object");
+        Gerichte= (ArrayList<Gericht>) extra.getSerializable("object");
         createEinkaufsliste(Gerichte);
         buildRecyclerView();
 
     }
 
-    private void createEinkaufsliste(ArrayList<ZutatenActivity.Gericht> mGerichte) {
+    private void createEinkaufsliste(ArrayList<Gericht> mGerichte) {
         for (int i=0; i < mGerichte.size();i++){
             if(mGerichte.get(i).getHaken()==true) {
                 String Datensatz=mGerichte.get(i).getDatensatz();

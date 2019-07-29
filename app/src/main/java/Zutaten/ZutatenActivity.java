@@ -24,18 +24,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Gericht_bearbeiten.GerichtBearbeitenActivity;
+import Gerichte.Gericht;
 import de.rg.einkaufsliste.R;
 import ZutatenEingabe.ZutatenEingabeActivity;
 
 
 public class ZutatenActivity extends AppCompatActivity {
 
+    //Empfangene Daten
+    private ArrayList<Gericht> Gerichte;
+    private int localposition;
+    private  String Datensatz;
+
     private ArrayList<Zutat> Zutaten;
     private RecyclerView recyclerView;
     private Adapter_Zutatenliste adapter;
     private RecyclerView.LayoutManager layoutmanager;
     private int INPUT_ACTIVITY_RESULT;
-    private String Daten;
 
 
     @Override
@@ -45,13 +50,23 @@ public class ZutatenActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Daten=getIntent().getStringExtra("Gericht_Zutatenliste");
-
-        loadData(Daten);
+        recieveData();
+        loadData(Datensatz);
         buildRecyclerView();
         buildStandardlayout();
 
 
+
+
+    }
+
+    private void recieveData() {
+        Gerichte = new ArrayList<>();
+        Bundle extra = getIntent().getBundleExtra("extra");
+        Gerichte = (ArrayList<Gericht>) extra.getSerializable("object");
+        localposition = getIntent().getIntExtra("position", 0);
+        Gericht gericht = Gerichte.get(localposition);
+        Datensatz = gericht.getDatensatz();
     }
 
     private void buildStandardlayout(){
@@ -59,9 +74,18 @@ public class ZutatenActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), GerichtBearbeitenActivity.class);
-                intent.putExtra("Daten", Daten);
-                startActivityForResult(intent, INPUT_ACTIVITY_RESULT);
+                /*Intent intent = new Intent(getApplicationContext(), GerichtBearbeitenActivity.class);
+                intent.putExtra("Daten", Datensatz);
+                startActivityForResult(intent, INPUT_ACTIVITY_RESULT);*/
+
+                //neu
+                Intent intent2 = new Intent(getApplicationContext(), GerichtBearbeitenActivity.class);
+                Bundle extra = new Bundle();
+                extra.putSerializable("object",Gerichte);
+                intent2.putExtra("extra", extra);
+                intent2.putExtra("position", localposition);
+                finish();
+                startActivityForResult(intent2, INPUT_ACTIVITY_RESULT);
             }
         });
     }
@@ -82,19 +106,9 @@ public class ZutatenActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDeleteClick(int position) {
-                removeZutat(position);
+            public void onDeleteClick(int position){
             }
         });
-    }
-
-    private void speichern() {
-        SharedPreferences sharedPreferences= getSharedPreferences(Daten,0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(Zutaten);
-        editor.putString("Zutatenliste",json);
-        editor.apply();
     }
 
     private void loadData(String data) {
@@ -114,127 +128,7 @@ public class ZutatenActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == INPUT_ACTIVITY_RESULT) {
             if (resultCode == RESULT_OK) {
-                String Daten =data.getStringExtra("Zutatenname");
-                if (Daten != null) {
-                    insertZutat(data.getStringExtra("Zutatenname"));
-                    Toast.makeText(this, "Zutat hinzugefügt", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    /*String Daten2 =data.getStringExtra("Positionlist");
-                    int daten3= Integer.parseInt(Daten2);*/
-                    adapter.notifyDataSetChanged();
-                }
             }
-        }
-    }
-
-    public void insertZutat(String position){
-        Zutaten.add(Zutaten.size(),new Zutat("Neu",position));
-        speichern();
-        adapter.notifyItemInserted(Zutaten.size());
-    }
-
-    public void removeZutat(int position){
-
-        Zutaten.remove(position);
-        speichern();
-        adapter.notifyItemRemoved(position);
-    }
-
-    public static class Gericht implements Serializable {
-
-        private String id;
-        private String name;
-        private int Foto =1;
-        private List<Zutat> Zutatenliste;
-        private String Datensatz;
-        private Bitmap Fotobm;
-        private String bilduri;
-        private Boolean Haken=false;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getFoto() {
-                return Foto;
-
-        }
-
-        public void setFoto(int foto) {
-            Foto = foto;
-        }
-
-        public Bitmap getFotobm() {
-            return Fotobm;
-        }
-
-        public void setFotobm(Bitmap fotobm) {
-            Fotobm = fotobm;
-        }
-
-        public String getDatensatz() {
-            return Datensatz;
-        }
-
-        public void setDatensatz(String datensatz) {
-            Datensatz = datensatz;
-        }
-
-        public List<Zutat> getZutatenliste() {
-            return Zutatenliste;
-        }
-
-        public void setZutatenliste(List<Zutat> zutatenliste) {
-            Zutatenliste = zutatenliste;
-        }
-
-        public String getBilduri() {
-            return bilduri;
-        }
-
-        public void setBilduri(String bilduri) {
-            this.bilduri = bilduri;
-        }
-
-        public Boolean getHaken() {
-            return Haken;
-        }
-
-        public void setHaken(Boolean haken) {
-            Haken = haken;
-        }
-
-        public Gericht(String name, int bm, List<Zutat> zutatenliste, String Datensatz) {
-            this.id = id;
-            this.name = name;
-            Foto = bm;
-            this.Zutatenliste=zutatenliste;
-            this.Datensatz=Datensatz;
-        }
-
-        public Gericht( String name, String Bilduri, List<Zutat> zutatenliste,String Datensatz) {
-            this.id = id;
-            this.name = name;
-            bilduri = Bilduri;
-            this.Zutatenliste=zutatenliste;
-            this.Datensatz=Datensatz;
-        }
-
-
-        public Gericht() {
         }
     }
 }

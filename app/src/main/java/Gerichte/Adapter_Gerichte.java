@@ -21,7 +21,7 @@ import Zutaten.ZutatenActivity;
 
 public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyViewholder>{
 
-    private ArrayList<ZutatenActivity.Gericht> GerichteListe;
+    private ArrayList<Gericht> GerichteListe;
     private Adapter_Gerichte.OnItemClickListener myListener;
     private Context context;
     private LayoutInflater inflater;
@@ -38,17 +38,15 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
 
     public static class MyViewholder extends RecyclerView.ViewHolder {
 
-        public TextView name;
+        public TextView name;//löschen
         public ImageView Bild;
-        public ImageView delete;
         public ImageView imageEinkaufskorbHaken;
 
 
         public MyViewholder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            name= itemView.findViewById(R.id.textViewNameGericht);
+            name= itemView.findViewById(R.id.textViewNameGericht);//löschen
             Bild= itemView.findViewById(R.id.imageViewGericht);
-            delete = itemView.findViewById(R.id.imageViewGerichtLöschen);
             imageEinkaufskorbHaken = itemView.findViewById(R.id.imageViewEinkaufskorb);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -62,21 +60,15 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
                     }
                 }
             });
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });
         }
     }
 
-    public Adapter_Gerichte(Context context,ArrayList<ZutatenActivity.Gericht> mGerichte){
+    public void updateList(ArrayList Gerichte) {
+        this.GerichteListe.clear();
+        this.GerichteListe.addAll(Gerichte);
+    }
+
+    public Adapter_Gerichte(Context context,ArrayList<Gericht> mGerichte){
         GerichteListe = mGerichte;
         inflater = LayoutInflater.from(context);
         this.context=context;
@@ -95,7 +87,7 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
     @Override
     public void onBindViewHolder(MyViewholder holder, int position) {
 
-        ZutatenActivity.Gericht gericht = GerichteListe.get(position);
+        Gericht gericht = GerichteListe.get(position);
         holder.name.setText(gericht.getName());
         if (gericht.getFoto() !=1){
             holder.Bild.setImageResource(gericht.getFoto());

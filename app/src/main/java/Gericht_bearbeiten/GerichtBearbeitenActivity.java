@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import Gerichte.Gericht;
 import Zutaten.Zutat;
 import ZutatenEingabe.ZutatenEingabeActivity;
 import de.rg.einkaufsliste.R;
@@ -31,12 +32,19 @@ import de.rg.einkaufsliste.*;
 
 public class GerichtBearbeitenActivity extends AppCompatActivity {
 
+    //Empfangene Daten
+    private ArrayList<Gerichte.Gericht> Gerichte;
+    private int localposition;
+    private  String Datensatz;
+    private String DatenGericht;
+
     private ArrayList<Zutat> Zutaten;
     private RecyclerView recyclerView;
     private Adapter_Zutatenliste_bearbeiten adapter;
     private RecyclerView.LayoutManager layoutmanager;
     private int INPUT_ACTIVITY_RESULT;
     private String Daten;
+    private Gericht gericht;
 
 
     @Override
@@ -46,28 +54,25 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Daten=getIntent().getStringExtra("Daten");
+        //Daten=getIntent().getStringExtra("Daten");
 
-        loadData(Daten);
+        recieveData();
+        loadData(Datensatz);
         buildRecyclerView();
         buildStandardlayout();
 
 
     }
+    private void recieveData() {
+        Gerichte = new ArrayList<>();
+        Bundle extra = getIntent().getBundleExtra("extra");
+        Gerichte = (ArrayList<Gerichte.Gericht>) extra.getSerializable("object");
+        localposition = getIntent().getIntExtra("position", 0);
+        Gerichte.Gericht gericht = Gerichte.get(localposition);
+        Datensatz = gericht.getDatensatz();
+    }
 
     private void buildStandardlayout(){
-        Button speichern= findViewById(R.id.button_speichern);
-        speichern.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent data = new Intent();
-                int controlbit=0;
-                data.putExtra("ControlBit", controlbit);
-                setResult(RESULT_OK,data);
-                finish();
-            }
-        });
-
         final TextView Zutatenname= findViewById(R.id.editTextZutat2);
         Button Hinzufügen= findViewById(R.id.buttonHinzufügen2);
         Hinzufügen.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +80,38 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 insertZutat(Zutatenname.getText().toString());
                 Zutatenname.setText("");
+                Toast.makeText(getApplicationContext(),"Zutat hinzugefügt",Toast.LENGTH_LONG).show();
             }
         });
+
+        final TextView Nameändern= findViewById(R.id.editTextNameändern);
+        Button Namespeichern= findViewById(R.id.buttonNameändern);
+        Namespeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gerichte.Gericht gericht = Gerichte.get(localposition);
+                gericht.setName(Nameändern.getText().toString());
+                Nameändern.setText("");
+                Toast.makeText(getApplicationContext(),"Name geändert",Toast.LENGTH_LONG).show();
+                speichernGericht();
+            }
+        });
+
+        Button Gerichtlöschen= findViewById(R.id.buttonGerichtlöschen);
+        Gerichtlöschen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeGericht(localposition);
+                finish();
+            }
+        });
+    }
+
+    public void removeGericht(int position){
+
+        Gerichte.remove(position);
+        speichernGericht();
+        adapter.notifyItemRemoved(position);
     }
 
     private void buildRecyclerView() {
@@ -100,9 +135,17 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
             }
         });
     }
+    private void speichernGericht() {
+        SharedPreferences sharedPreferences= getSharedPreferences(DatenGericht,0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(Gerichte);
+        editor.putString("Gerichteliste",json);
+        editor.apply();
+    }
 
     private void speichern() {
-        SharedPreferences sharedPreferences= getSharedPreferences(Daten,0);
+        SharedPreferences sharedPreferences= getSharedPreferences(Datensatz,0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(Zutaten);
@@ -144,102 +187,5 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
         Zutaten.remove(position);
         speichern();
         adapter.notifyItemRemoved(position);
-    }
-
-    public static class Gericht implements Serializable {
-
-        private String id;
-        private String name;
-        private int Foto =1;
-        private List<Zutat> Zutatenliste;
-        private String Datensatz;
-        private Bitmap Fotobm;
-        private String bilduri;
-        private Boolean Haken=false;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getFoto() {
-                return Foto;
-
-        }
-
-        public void setFoto(int foto) {
-            Foto = foto;
-        }
-
-        public Bitmap getFotobm() {
-            return Fotobm;
-        }
-
-        public void setFotobm(Bitmap fotobm) {
-            Fotobm = fotobm;
-        }
-
-        public String getDatensatz() {
-            return Datensatz;
-        }
-
-        public void setDatensatz(String datensatz) {
-            Datensatz = datensatz;
-        }
-
-        public List<Zutat> getZutatenliste() {
-            return Zutatenliste;
-        }
-
-        public void setZutatenliste(List<Zutat> zutatenliste) {
-            Zutatenliste = zutatenliste;
-        }
-
-        public String getBilduri() {
-            return bilduri;
-        }
-
-        public void setBilduri(String bilduri) {
-            this.bilduri = bilduri;
-        }
-
-        public Boolean getHaken() {
-            return Haken;
-        }
-
-        public void setHaken(Boolean haken) {
-            Haken = haken;
-        }
-
-        public Gericht(String name, int bm, List<Zutat> zutatenliste, String Datensatz) {
-            this.id = id;
-            this.name = name;
-            Foto = bm;
-            this.Zutatenliste=zutatenliste;
-            this.Datensatz=Datensatz;
-        }
-
-        public Gericht( String name, String Bilduri, List<Zutat> zutatenliste,String Datensatz) {
-            this.id = id;
-            this.name = name;
-            bilduri = Bilduri;
-            this.Zutatenliste=zutatenliste;
-            this.Datensatz=Datensatz;
-        }
-
-
-        public Gericht() {
-        }
     }
 }

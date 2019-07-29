@@ -13,8 +13,7 @@
         android:id="@+id/ListeGerichte"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="57dp"
-        android:layout_marginBottom="-4dp" />
+        android:layout_marginBottom="-4dp"
+        android:background="#FFFFFF" />
 </LinearLayout>

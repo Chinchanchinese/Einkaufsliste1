@@ -66,8 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="107dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginBottom="97dp"
         android:text="Ändern" />
 
     <com.google.android.material.appbar.AppBarLayout
@@ -93,13 +93,23 @@
         android:layout_marginTop="57dp" />
 
     <Button
-        android:id="@+id/button_speichern"
-        android:layout_width="140dp"
+        android:id="@+id/buttonGerichtlöschen"
+        android:layout_width="53dp"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="40dp"
+        android:foreground="@android:drawable/ic_delete" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="131dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="251dp"
-        android:layout_marginBottom="48dp"
-        android:text="Speichern" />
+        android:layout_marginEnd="178dp"
+        android:layout_marginBottom="51dp"
+        android:text="Gericht löschen" />
 
 </RelativeLayout>

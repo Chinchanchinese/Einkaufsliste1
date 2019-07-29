@@ -38,6 +38,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 import Gerichte.Adapter_Gerichte;
+import Gerichte.Gericht;
 import GerichteEingabe.GerichteEingabeActivity;
 import Zutaten.Zutat;
 import Zutaten.ZutatenActivity;
@@ -45,7 +46,7 @@ import Zutaten.ZutatenActivity;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private ArrayList<ZutatenActivity.Gericht> Gerichte;
+    private ArrayList<Gericht> Gerichte;
     private ArrayList<Zutat> Zutaten;
     private ImageView Bild;
     private TextView Name;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void buildRecyclerView() {
         recyclerView = findViewById(R.id.ListeGerichte);
         recyclerView.setHasFixedSize(true);
-        layoutmanager = new GridLayoutManager(this,2);
+        layoutmanager = new GridLayoutManager(this,3);
         adapterGerichte = new Adapter_Gerichte(this,Gerichte);
 
         recyclerView.setLayoutManager(layoutmanager);
@@ -134,13 +135,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     handler.postDelayed(runn,400);
                 }
                 else if(i==2){
-                    ZutatenActivity.Gericht gericht = Gerichte.get(position);
-                    String Datensatz=gericht.getDatensatz();
-                    Intent intent = new Intent(MainActivity.this, ZutatenActivity.class);
-                    intent.putExtra("Gericht_Zutatenliste", Datensatz);
-                    intent.putExtra("Gericht_Position", position);
-                    setResult(RESULT_OK, intent);
-                    startActivity(intent);
+                    Intent intent2 = new Intent(getApplicationContext(), ZutatenActivity.class);
+                    Bundle extra = new Bundle();
+                    extra.putSerializable("object",Gerichte);
+                    intent2.putExtra("extra", extra);
+                    intent2.putExtra("position", position);
+                    startActivityForResult(intent2, INPUT_ACTIVITY_RESULT);
                 }
             }
 
@@ -151,17 +151,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onZutatenClick(int position) {
-                ZutatenActivity.Gericht gericht = Gerichte.get(position);
-                String Datensatz=gericht.getDatensatz();
-                Intent intent = new Intent(MainActivity.this, ZutatenActivity.class);
-                setResult(RESULT_OK, intent);
-                startActivity(intent);
             }
         });
     }
 
     private void Hakensetzen(int position) {
-        ZutatenActivity.Gericht gericht = Gerichte.get(position);
+        Gericht gericht = Gerichte.get(position);
         if (gericht.getHaken() == false) {
             gericht.setHaken(true);
         } else {
@@ -171,6 +166,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         speichern();
     }
 
+    public void onResume() {
+        // fetch updated data
+        super.onResume();
+        loadData(DatenGericht);
+        adapterGerichte.updateList(Gerichte);
+        adapterGerichte.notifyDataSetChanged();
+    }
 
     @Override
     public void onBackPressed() {
@@ -243,17 +245,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences= getSharedPreferences(data,0);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("Gerichteliste", null);
-        Type type = new TypeToken<ArrayList<ZutatenActivity.Gericht>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Gericht>>() {}.getType();
         Gerichte = gson.fromJson(json, type);
 
         if(Gerichte==null){
             Gerichte = new ArrayList<>();
-            Gerichte.add(new ZutatenActivity.Gericht("Morning Glory", R.drawable.morning_glory, new ArrayList<Zutat>(), "Data1"));
-            Gerichte.add(new ZutatenActivity.Gericht("Bier", R.drawable.bier,new ArrayList<Zutat>(),"Data2"));
-            Gerichte.add(new ZutatenActivity.Gericht("Schoppe", R.drawable.schoppe,new ArrayList<Zutat>(),"Data3"));
-            Gerichte.add(new ZutatenActivity.Gericht("Wrap", R.drawable.wrap,new ArrayList<Zutat>(),"Data4"));
-            Gerichte.add(new ZutatenActivity.Gericht("Croissant", R.drawable.croissant,new ArrayList<Zutat>(),"Data5"));
-            Gerichte.add(new ZutatenActivity.Gericht("Eklig", R.drawable.eklig,new ArrayList<Zutat>(),"Data6"));
+            Gerichte.add(new Gericht("Morning Glory", R.drawable.morning_glory, new ArrayList<Zutat>(), "Data1"));
+            Gerichte.add(new Gericht("Bier", R.drawable.bier,new ArrayList<Zutat>(),"Data2"));
+            Gerichte.add(new Gericht("Schoppe", R.drawable.schoppe,new ArrayList<Zutat>(),"Data3"));
+            Gerichte.add(new Gericht("Wrap", R.drawable.wrap,new ArrayList<Zutat>(),"Data4"));
+            Gerichte.add(new Gericht("Croissant", R.drawable.croissant,new ArrayList<Zutat>(),"Data5"));
+            Gerichte.add(new Gericht("Eklig", R.drawable.eklig,new ArrayList<Zutat>(),"Data6"));
         }
 
     }
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String name= data.getStringExtra("Gericht_Name");
         Bitmap bildbm = data.getParcelableExtra("Gericht_Bild");
         String Bildstring= getStringFromBitmap(bildbm);
-        ZutatenActivity.Gericht gericht=new ZutatenActivity.Gericht(name,Bildstring,new ArrayList<Zutat>(),name);
+        Gericht gericht=new Gericht(name,Bildstring,new ArrayList<Zutat>(),name);
         Gerichte.add (gericht);
         speichern();
         adapterGerichte.notifyItemInserted(Gerichte.size());

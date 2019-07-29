@@ -2,7 +2,6 @@ package Zutaten;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,18 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.widget.*;
-
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import Gericht_bearbeiten.GerichtBearbeitenActivity;
 import Gerichte.Gericht;
 import de.rg.einkaufsliste.R;
-import ZutatenEingabe.ZutatenEingabeActivity;
-import de.rg.einkaufsliste.ReplaceFont;
 
 
 public class ZutatenActivity extends AppCompatActivity {
@@ -48,7 +41,6 @@ public class ZutatenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zutaten);
-        ReplaceFont.replaceDefaultFont(this,"DEFAULT","indieflow.ttf");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

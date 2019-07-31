@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import android.util.Base64;
 
@@ -92,7 +93,13 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
         if (gericht.getFoto() !=1){
             holder.Bild.setImageResource(gericht.getFoto());
         }else{
-            holder.Bild.setImageBitmap(getBitmapFromString(gericht.getBilduri()));
+            File imgFile = new File(gericht.getPath());
+            if (imgFile.exists()) {
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                holder.Bild.setImageBitmap(myBitmap);
+
+            }
         }
         if (gericht.getHaken()==true) {
             holder.imageEinkaufskorbHaken.setVisibility(View.VISIBLE);

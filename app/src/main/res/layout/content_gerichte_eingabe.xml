@@ -10,22 +10,32 @@
 
     <ImageView
         android:id="@+id/imageViewFotoaufnehmen"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="55dp"
+        app:srcCompat="@drawable/ic_menu_camera" />
+
+    <ImageView
+        android:id="@+id/imageViewGerichtFoto"
         android:layout_width="293dp"
         android:layout_height="298dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="255dp"
-        app:srcCompat="@drawable/ic_menu_camera" />
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="252dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <EditText
         android:id="@+id/editTextNameGericht"
-        android:layout_width="155dp"
+        android:layout_width="205dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="121dp"
-        android:layout_marginBottom="153dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="155dp"
         android:ems="10"
         android:fontFamily="@font/indieflow"
         android:inputType="textPersonName"
@@ -33,12 +43,12 @@
 
     <Button
         android:id="@+id/buttonGerichtHinzufügen"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="91dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="55dp"
         android:background="@android:drawable/ic_menu_save" />
 
     <TextView
@@ -47,10 +57,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="94dp"
-        android:layout_marginBottom="195dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="207dp"
         android:fontFamily="@font/indieflow"
         android:text="Name des Gerichts"
         android:textSize="25sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageViewGallery"
+        android:layout_width="66dp"
+        android:layout_height="65dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="290dp"
+        android:layout_marginBottom="55dp"
+        app:srcCompat="@drawable/ic_menu_gallery" />
 </RelativeLayout>

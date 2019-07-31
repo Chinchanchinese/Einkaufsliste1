@@ -3,6 +3,7 @@ package de.rg.einkaufsliste;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +34,7 @@ import android.widget.*;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -269,8 +271,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void GerichtHinzufügen(Intent data){
         String name= data.getStringExtra("Gericht_Name");
         Bitmap bildbm = data.getParcelableExtra("Gericht_Bild");
-        String Bildstring= getStringFromBitmap(bildbm);
-        Gericht gericht=new Gericht(name,Bildstring,new ArrayList<Zutat>(),name);
+        //new
+        Bundle bundle = data.getExtras();
+
+        String path= data.getStringExtra("Gericht_File");
+        Uri imageUri = (Uri)bundle.get(data.EXTRA_STREAM);
+
+        //String Bildstring= getStringFromBitmap(bildbm);
+        Gericht gericht=new Gericht(name,path,new ArrayList<Zutat>(),name);
         Gerichte.add (gericht);
         speichern();
         adapterGerichte.notifyItemInserted(Gerichte.size());

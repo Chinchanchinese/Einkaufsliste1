@@ -1,6 +1,7 @@
 package Gerichte;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,8 +16,9 @@ public class Gericht implements Serializable {
     private List<Zutat> Zutatenliste;
     private String Datensatz;
     private Bitmap Fotobm;
-    private String bilduri;
+    private Uri bilduri;
     private Boolean Haken = false;
+    private String path;
 
     public String getId() {
         return id;
@@ -67,12 +69,20 @@ public class Gericht implements Serializable {
         Zutatenliste = zutatenliste;
     }
 
-    public String getBilduri() {
+    public Uri getBilduri() {
         return bilduri;
     }
 
-    public void setBilduri(String bilduri) {
+    public void setBilduri(Uri bilduri) {
         this.bilduri = bilduri;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Boolean getHaken() {
@@ -91,10 +101,18 @@ public class Gericht implements Serializable {
         this.Datensatz = Datensatz;
     }
 
-    public Gericht(String name, String Bilduri, List<Zutat> zutatenliste, String Datensatz) {
+    public Gericht(String name, Uri Bilduri, List<Zutat> zutatenliste, String Datensatz) {
         this.id = id;
         this.name = name;
         bilduri = Bilduri;
+        this.Zutatenliste = zutatenliste;
+        this.Datensatz = Datensatz;
+    }
+
+    public Gericht(String name, String mpath, List<Zutat> zutatenliste, String Datensatz) {
+        this.id = id;
+        this.name = name;
+        this.path = mpath;
         this.Zutatenliste = zutatenliste;
         this.Datensatz = Datensatz;
     }

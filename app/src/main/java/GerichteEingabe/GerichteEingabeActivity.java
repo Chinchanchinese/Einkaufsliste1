@@ -36,15 +36,20 @@ import de.rg.einkaufsliste.R;
 
 public class GerichteEingabeActivity extends AppCompatActivity {
 
-
+    private ImageView imageViewGerichtFoto;
+    private ImageView imageViewGallery;
     private Button btn1;
     private ImageView iv1;
     private EditText NameGericht;
     private Bitmap bitmap;
     private Button Hinzufügen;
+    private File file;
+    private Uri uri;
 
-    int Kameracode = 15;
-    int CAMERA_PERMISSION_REQUEST_CODE = 4192;
+    private static final int Kameracode = 15;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 4192;
+    private static final int IMAGE_PICK_CODE = 1000;
+    private static final int PERMISSON_CODE = 1001;
     private OutputStream outputstream;
 
 
@@ -53,9 +58,10 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gerichte_eingabe);
 
+        imageViewGerichtFoto = findViewById(R.id.imageViewGerichtFoto);
+        imageViewGallery = findViewById(R.id.imageViewGallery);
         NameGericht = findViewById(R.id.editTextNameGericht);
-        //btn1 = (Button) findViewById(R.id.buttonFotoaufnehmen);
-        iv1 = (ImageView) findViewById(R.id.imageViewFotoaufnehmen);
+        iv1 = findViewById(R.id.imageViewFotoaufnehmen);
         Hinzufügen = findViewById(R.id.buttonGerichtHinzufügen);
 
         Hinzufügen.setOnClickListener(new OnClickListener() {
@@ -65,21 +71,6 @@ public class GerichteEingabeActivity extends AppCompatActivity {
             }
         });
 
-        /*btn1.setOnClickListener(new OnClickListener() {
-
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    invokeCamera();
-                }
-                else {
-                    // let's request permission.
-                    String[] permissionRequest = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                    requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
-                }
-            }
-        });*/
         iv1.setOnClickListener(new OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -95,6 +86,30 @@ public class GerichteEingabeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        imageViewGallery.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
+                        String[] permissons= {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        requestPermissions(permissons,PERMISSON_CODE);
+                    }
+                    else{
+                        pickImagefromGallery();
+                    }
+                }
+                else{
+
+                }
+            }
+        });
+    }
+
+    private void pickImagefromGallery() {
+        Intent intent= new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
     private void invokeCamera() {
@@ -109,16 +124,6 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         startActivityForResult(intent, 15);
     }
 
-    private File createImageFile() {
-        File pictureDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String timestamp=sdf.format(new Date());
-
-        File imageFile= new File(pictureDir, "picture" + timestamp + ".jpg");
-        return imageFile;
-    }
-
 
     public void senden() {
         String inhalt= NameGericht.getText().toString();
@@ -126,6 +131,8 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra("Gericht_Name", inhalt);
         data.putExtra("Gericht_Bild",bitmap );
+        String path= uri.getPath();
+        data.putExtra("Gericht_File",path );
         setResult(RESULT_OK, data);
         super.finish();
     }
@@ -133,12 +140,22 @@ public class GerichteEingabeActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            // we have heard back from our request for camera and write external storage.
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                invokeCamera();
-            } else {
-                Toast.makeText(this, "Keine Permission", Toast.LENGTH_LONG).show();
+        switch (requestCode){
+            case CAMERA_PERMISSION_REQUEST_CODE: {
+                // we have heard back from our request for camera and write external storage.
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    invokeCamera();
+                } else {
+                    Toast.makeText(this, "Keine Permission", Toast.LENGTH_LONG).show();
+                }
+            }
+            case PERMISSON_CODE:{
+                if( grantResults.length>0 &&grantResults[0]==PackageManager.PERMISSION_DENIED){
+                    pickImagefromGallery();
+                }
+                else{
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -146,27 +163,57 @@ public class GerichteEingabeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == Kameracode) {
+            switch (requestCode) {
+                case Kameracode:{
+                    if (data != null) {
+                        bitmap = (Bitmap) data.getExtras().get("data");
 
-                if (data != null) {
-                    bitmap= (Bitmap)data.getExtras().get("data");
+                        imageViewGerichtFoto.setImageBitmap(bitmap);
 
-                    iv1.setImageBitmap(bitmap);
+                        BitmapDrawable drawable = (BitmapDrawable) imageViewGerichtFoto.getDrawable();
+                        Bitmap bitmap2 = drawable.getBitmap();
 
-                    BitmapDrawable drawable= (BitmapDrawable) iv1.getDrawable();
+                        File filepath = Environment.getExternalStorageDirectory();
+                        File dir = new File(filepath.getAbsolutePath() + "/Einkaufskorb_Bilder/");
+                        dir.mkdir();
+                        file = new File(dir, System.currentTimeMillis() + ".jpg");
+                        uri = Uri.fromFile(file);
+                        try {
+                            outputstream = new FileOutputStream(file);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, outputstream);
+                        Toast.makeText(getApplicationContext(), "Bild gespeichert ", Toast.LENGTH_SHORT).show();
+                        try {
+                            outputstream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            outputstream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                case IMAGE_PICK_CODE:{
+                    imageViewGerichtFoto.setImageURI(data.getData());
+                    BitmapDrawable drawable = (BitmapDrawable) imageViewGerichtFoto.getDrawable();
                     Bitmap bitmap2 = drawable.getBitmap();
 
-                    File filepath= Environment.getExternalStorageDirectory();
-                    File dir = new File(filepath.getAbsolutePath()+"/Bilder Gerichte/");
+                    File filepath = Environment.getExternalStorageDirectory();
+                    File dir = new File(filepath.getAbsolutePath() + "/Einkaufskorb_Bilder/");
                     dir.mkdir();
-                    File file = new File(dir, System.currentTimeMillis()+".jpg");
-                    try{
+                    file = new File(dir, System.currentTimeMillis() + ".jpg");
+                    uri = Uri.fromFile(file);
+                    try {
                         outputstream = new FileOutputStream(file);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                     bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, outputstream);
-                    Toast.makeText(getApplicationContext(), "Bild gespeichert " , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Bild gespeichert ", Toast.LENGTH_SHORT).show();
                     try {
                         outputstream.flush();
                     } catch (IOException e) {
@@ -177,11 +224,13 @@ public class GerichteEingabeActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
             }
 
 
         }
+
 
 
         super.onActivityResult(requestCode, resultCode, data);

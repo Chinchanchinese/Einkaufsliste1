@@ -130,7 +130,6 @@ public class GerichteEingabeActivity extends AppCompatActivity {
         NameGericht = findViewById(R.id.editTextZutat);
         Intent data = new Intent();
         data.putExtra("Gericht_Name", inhalt);
-        data.putExtra("Gericht_Bild",bitmap );
         String path= uri.getPath();
         data.putExtra("Gericht_File",path );
         setResult(RESULT_OK, data);

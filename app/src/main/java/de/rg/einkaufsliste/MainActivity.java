@@ -67,12 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         loadData(DatenGericht);
-
-
         buildRecyclerView();
         buildStandardlayout();
-
-
     }
 
 
@@ -248,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String json = sharedPreferences.getString("Gerichteliste", null);
         Type type = new TypeToken<ArrayList<Gericht>>() {}.getType();
         Gerichte = gson.fromJson(json, type);
+        Collections.shuffle(Gerichte);
 
         if(Gerichte==null){
             Gerichte = new ArrayList<>();
@@ -270,14 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void GerichtHinzufügen(Intent data){
         String name= data.getStringExtra("Gericht_Name");
-        Bitmap bildbm = data.getParcelableExtra("Gericht_Bild");
-        //new
-        Bundle bundle = data.getExtras();
-
         String path= data.getStringExtra("Gericht_File");
-        Uri imageUri = (Uri)bundle.get(data.EXTRA_STREAM);
-
-        //String Bildstring= getStringFromBitmap(bildbm);
         Gericht gericht=new Gericht(name,path,new ArrayList<Zutat>(),name);
         Gerichte.add (gericht);
         speichern();
@@ -289,15 +279,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Gerichte.remove(position);
         speichern();
         adapterGerichte.notifyItemRemoved(position);
-    }
-    private String getStringFromBitmap(Bitmap bitmapPicture) {
-        final int COMPRESSION_QUALITY = 100;
-        String encodedImage;
-        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
-                byteArrayBitmapStream);
-        byte[] b = byteArrayBitmapStream.toByteArray();
-        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-        return encodedImage;
     }
 }

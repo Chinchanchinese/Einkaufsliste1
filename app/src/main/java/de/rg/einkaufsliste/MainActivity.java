@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button buttonZutaten;
     private String DatenGericht;
     private String Daten;
+    private String DatenArtikel;
     private int i=0;
 
     private RecyclerView recyclerView;
@@ -196,14 +198,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.Einkaufskorb_neu) {
+            for (int i=0; i < Gerichte.size();i++){
+                if(Gerichte.get(i).getHaken()==true) {
+                    Gerichte.get(i).setHaken(false);
+                    speichern();
+                    //getSharedPreferences("DatenArtikel", 0).edit().clear().commit();
+                    /*SharedPreferences preferences = getSharedPreferences("DatenArtikel", 0);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    Gson gson = new Gson();
+                    String json = preferences.getString("Artikelliste", null);
+                    Type type = new TypeToken<ArrayList<Zutat>>() {}.getType();
+                    ArrayList<Zutat> Artikelliste = gson.fromJson(json, type);
+                    String name=Artikelliste.get(0).getName();
+                    Toast.makeText(this,name,Toast.LENGTH_SHORT).show();
+                    editor.clear().commit();*/
+                    onResume();
+                }
+            }
+            getSharedPreferences("DatenArtikel", 0).edit().clear().commit();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -244,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String json = sharedPreferences.getString("Gerichteliste", null);
         Type type = new TypeToken<ArrayList<Gericht>>() {}.getType();
         Gerichte = gson.fromJson(json, type);
-        Collections.shuffle(Gerichte);
 
         if(Gerichte==null){
             Gerichte = new ArrayList<>();
@@ -255,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Gerichte.add(new Gericht("Croissant", R.drawable.croissant,new ArrayList<Zutat>(),"Data5"));
             Gerichte.add(new Gericht("Eklig", R.drawable.eklig,new ArrayList<Zutat>(),"Data6"));
         }
-
+        Collections.shuffle(Gerichte);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

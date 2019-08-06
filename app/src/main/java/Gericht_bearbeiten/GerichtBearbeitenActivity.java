@@ -170,14 +170,14 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == INPUT_ACTIVITY_RESULT) {
             if (resultCode == RESULT_OK) {
-                insertZutat(data.getStringExtra("Zutatenname"));
-                Toast.makeText(this,"Zutat hinzugefügt",Toast.LENGTH_LONG).show();
+                /*insertZutat(data.getStringExtra("Zutatenname"));
+                Toast.makeText(this,"Zutat hinzugefügt",Toast.LENGTH_LONG).show();*/
                             }
         }
     }
 
-    public void insertZutat(String position){
-        Zutaten.add(Zutaten.size(),new Zutat("Neu",position));
+    public void insertZutat(String name){
+        Zutaten.add(Zutaten.size(),new Zutat(name));
         speichern();
         adapter.notifyItemInserted(Zutaten.size());
     }

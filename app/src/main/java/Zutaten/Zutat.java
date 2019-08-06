@@ -1,6 +1,8 @@
 package Zutaten;
 
-public class Zutat {
+import java.io.Serializable;
+
+public class Zutat implements Serializable {
 
     private String id;
     private String name;
@@ -21,8 +23,7 @@ public class Zutat {
         this.name = name;
     }
 
-    public Zutat(String id, String name) {
-        this.id = id;
+    public Zutat(String name) {
         this.name =name;
     }
 

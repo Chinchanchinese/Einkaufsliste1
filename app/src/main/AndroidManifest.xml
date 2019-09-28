@@ -28,10 +28,6 @@
             android:label="Gericht hinzufügen"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="ZutatenEingabe.ZutatenEingabeActivity"
-            android:label="Zutaten hinzufügen"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="Zutaten.ZutatenActivity"
             android:label="Zutaten"
             android:theme="@style/AppTheme.NoActionBar" />

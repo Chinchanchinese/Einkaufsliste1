@@ -127,7 +127,7 @@ public class GerichteEingabeActivity extends AppCompatActivity {
 
     public void senden() {
         String inhalt= NameGericht.getText().toString();
-        NameGericht = findViewById(R.id.editTextZutat);
+        NameGericht = findViewById(R.id.editTextNameGericht);
         Intent data = new Intent();
         data.putExtra("Gericht_Name", inhalt);
         String path= uri.getPath();
@@ -195,11 +195,13 @@ public class GerichteEingabeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+                    break;
                 }
                 case IMAGE_PICK_CODE:{
                     imageViewGerichtFoto.setImageURI(data.getData());
                     BitmapDrawable drawable = (BitmapDrawable) imageViewGerichtFoto.getDrawable();
-                    Bitmap bitmap2 = drawable.getBitmap();
+                    //Bitmap bitmap2 = drawable.getBitmap(); löschen
+                    Bitmap bitmap2 = Bitmap.createScaledBitmap(drawable.getBitmap(), 187, 250, false);
 
                     File filepath = Environment.getExternalStorageDirectory();
                     File dir = new File(filepath.getAbsolutePath() + "/Einkaufskorb_Bilder/");
@@ -223,6 +225,7 @@ public class GerichteEingabeActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    break;
 
                 }
             }

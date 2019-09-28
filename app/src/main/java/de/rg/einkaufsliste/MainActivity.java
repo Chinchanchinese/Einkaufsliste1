@@ -110,8 +110,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void buildRecyclerView() {
         recyclerView = findViewById(R.id.ListeGerichte);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         layoutmanager = new GridLayoutManager(this,3);
         adapterGerichte = new Adapter_Gerichte(this,Gerichte);
+        //adapterGerichte.setHasStableIds(true);
 
         recyclerView.setLayoutManager(layoutmanager);
         recyclerView.setAdapter(adapterGerichte);
@@ -266,12 +271,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(Gerichte==null){
             Gerichte = new ArrayList<>();
-            Gerichte.add(new Gericht("Morning Glory", R.drawable.morning_glory, new ArrayList<Zutat>(), "Data1"));
+            /*Gerichte.add(new Gericht("Morning Glory", R.drawable.morning_glory, new ArrayList<Zutat>(), "Data1"));
             Gerichte.add(new Gericht("Bier", R.drawable.bier,new ArrayList<Zutat>(),"Data2"));
             Gerichte.add(new Gericht("Schoppe", R.drawable.schoppe,new ArrayList<Zutat>(),"Data3"));
             Gerichte.add(new Gericht("Wrap", R.drawable.wrap,new ArrayList<Zutat>(),"Data4"));
             Gerichte.add(new Gericht("Croissant", R.drawable.croissant,new ArrayList<Zutat>(),"Data5"));
-            Gerichte.add(new Gericht("Eklig", R.drawable.eklig,new ArrayList<Zutat>(),"Data6"));
+            Gerichte.add(new Gericht("Eklig", R.drawable.eklig,new ArrayList<Zutat>(),"Data6"));*/
         }
         Collections.shuffle(Gerichte);
     }

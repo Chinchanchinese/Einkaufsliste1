@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="23dp"
         android:text="Hinzufügen" />
 
     <TextView
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="138dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="128dp"
         android:text="Zusätzliche Artikel" />
 
     <EditText
@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="89dp"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="78dp"
         android:ems="10"
         android:inputType="textPersonName" />
 

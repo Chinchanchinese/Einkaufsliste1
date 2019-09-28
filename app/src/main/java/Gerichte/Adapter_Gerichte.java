@@ -90,7 +90,26 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
 
         Gericht gericht = GerichteListe.get(position);
         holder.name.setText(gericht.getName());
-        if (gericht.getFoto() !=1){
+        holder.Bild.setImageBitmap(BitmapFactory.decodeFile(gericht.getPath()));
+
+        if (gericht.getHaken()==true) {
+            holder.imageEinkaufskorbHaken.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.imageEinkaufskorbHaken.setVisibility(View.INVISIBLE);
+        }
+            //File imgFile = new File(gericht.getPath());
+            /*if (imgFile.exists()) {
+*/          //    Bitmap myBitmap = BitmapFactory.decodeFile(gericht.getPath());
+                //Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                //holder.Bild.setImageBitmap(myBitmap);
+
+        //holder.Bild.setImageURI(gericht.getPath());
+
+            //}
+
+
+        /*if (gericht.getFoto() !=1){
             holder.Bild.setImageResource(gericht.getFoto());
         }else{
             File imgFile = new File(gericht.getPath());
@@ -100,13 +119,8 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
                 holder.Bild.setImageBitmap(myBitmap);
 
             }
-        }
-        if (gericht.getHaken()==true) {
-            holder.imageEinkaufskorbHaken.setVisibility(View.VISIBLE);
-        }
-        else{
-            holder.imageEinkaufskorbHaken.setVisibility(View.INVISIBLE);
-        }
+        }*/
+
 
 
     }
@@ -115,10 +129,10 @@ public class Adapter_Gerichte extends RecyclerView.Adapter<Adapter_Gerichte.MyVi
     public int getItemCount() {
         return GerichteListe.size();
     }
-    private Bitmap getBitmapFromString(String stringPicture) {
+    /*private Bitmap getBitmapFromString(String stringPicture) {
         byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
-    }
+    }*/
 }
 

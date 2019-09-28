@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,6 @@ import java.util.List;
 
 import Gerichte.Gericht;
 import Zutaten.Zutat;
-import ZutatenEingabe.ZutatenEingabeActivity;
 import de.rg.einkaufsliste.R;
 import de.rg.einkaufsliste.*;
 
@@ -45,6 +45,9 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
     private int INPUT_ACTIVITY_RESULT;
     private String Daten;
     private Gericht gericht;
+
+    private EditText EditRezept;
+    private Button Rezeptspeichern;
 
 
     @Override
@@ -68,7 +71,7 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
         Bundle extra = getIntent().getBundleExtra("extra");
         Gerichte = (ArrayList<Gerichte.Gericht>) extra.getSerializable("object");
         localposition = getIntent().getIntExtra("position", 0);
-        Gerichte.Gericht gericht = Gerichte.get(localposition);
+        gericht = Gerichte.get(localposition);
         Datensatz = gericht.getDatensatz();
     }
 
@@ -85,13 +88,13 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
         });
 
         final TextView Nameändern= findViewById(R.id.editTextNameändern);
+        Nameändern.setText(Gerichte.get(localposition).getName());
         Button Namespeichern= findViewById(R.id.buttonNameändern);
         Namespeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Gerichte.Gericht gericht = Gerichte.get(localposition);
                 gericht.setName(Nameändern.getText().toString());
-                Nameändern.setText("");
                 Toast.makeText(getApplicationContext(),"Name geändert",Toast.LENGTH_LONG).show();
                 speichernGericht();
             }
@@ -103,6 +106,19 @@ public class GerichtBearbeitenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 removeGericht(localposition);
                 finish();
+            }
+        });
+        // Rezept
+        EditRezept = findViewById(R.id.editTextRezept);
+        EditRezept.setText(gericht.getRezept());
+        Rezeptspeichern = findViewById(R.id.buttonRezeptspeichern);
+        Rezeptspeichern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = EditRezept.getText().toString();
+                gericht.setRezept(text);
+                speichernGericht();
+
             }
         });
     }

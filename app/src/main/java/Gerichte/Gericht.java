@@ -20,6 +20,16 @@ public class Gericht implements Serializable {
     private Boolean Haken = false;
     private String path;
 
+    public String getRezept() {
+        return Rezept;
+    }
+
+    public void setRezept(String rezept) {
+        Rezept = rezept;
+    }
+
+    private String Rezept;
+
     public String getId() {
         return id;
     }
